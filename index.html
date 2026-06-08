@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our online courses</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="courses">
+        <div class="courses__decor-layer">
+          <img
+            class="courses__decor courses__decor--dots"
+            src="src/assets/dots.svg"
+            alt=""
+          />
+        </div>
+
+        <div class="courses__container">
+          <header class="courses__header">
+            <h6 class="courses__label">Enjoy your studying!</h6>
+            <h1 class="courses__title" id="courses-title">Our online courses</h1>
+          </header>
+
+          <div class="courses__toolbar">
+            <nav class="courses__filters" id="course-filters"></nav>
+
+            <div class="courses__search">
+              <label class="courses__search-label" for="course-search">
+                Search course
+              </label>
+              <input
+                class="courses__search-input"
+                type="search"
+                id="course-search"
+                placeholder="Search course..."
+                autocomplete="off"
+              />
+              <img
+                class="courses__search-icon"
+                src="src/assets/Search.svg"
+                alt=""
+                width="15"
+                height="15"
+              />
+            </div>
+          </div>
+
+          <p class="courses__empty" id="course-empty" hidden>No courses found</p>
+
+          <ul class="courses__grid" id="course-grid"></ul>
+
+          <div class="courses__actions" id="course-toggle"></div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="src/js/main.js" defer></script>
+  </body>
+</html>

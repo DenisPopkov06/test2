@@ -1,0 +1,15 @@
+{
+  "name": "courses-catalog",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build:css": "sass src/scss/main.scss css/main.css --style=compressed",
+    "build": "npm run build:css",
+    "dev:css": "sass src/scss/main.scss css/main.css --watch",
+    "dev": "npm run build:css && npx --yes serve ."
+  },
+  "devDependencies": {
+    "sass": "^1.77.0"
+  }
+}

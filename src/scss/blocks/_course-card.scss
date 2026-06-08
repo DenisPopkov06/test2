@@ -1,0 +1,99 @@
+.course-card {
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: transform var(--transition-base);
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  &__image {
+    aspect-ratio: 360 / 240;
+    overflow: hidden;
+    background-color: var(--color-bg-yellow);
+  }
+
+  &__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: clamp(8px, 1vw, 12px);
+    padding: clamp(16px, 2vw, 24px);
+  }
+
+  &__badge {
+    align-self: flex-start;
+    padding: 1px 8px;
+    border-radius: var(--radius-sm);
+    font-size: clamp(10px, 1.2vw, 12px);
+    font-weight: 400;
+    line-height: 18px;
+    color: var(--color-white);
+
+    &--marketing {
+      background-color: var(--color-badge-marketing);
+    }
+
+    &--management {
+      background-color: var(--color-badge-management);
+    }
+
+    &--hr {
+      background-color: var(--color-badge-hr);
+    }
+
+    &--design {
+      background-color: var(--color-badge-design);
+    }
+
+    &--development {
+      background-color: var(--color-badge-development);
+    }
+  }
+
+  &__title {
+    flex: 1;
+    font-size: clamp(16px, 1.6vw, 20px);
+    font-weight: 700;
+    line-height: clamp(24px, 2.5vw, 30px);
+    color: var(--color-gray-900);
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 0.8vw, 8px);
+    margin-top: auto;
+    font-size: clamp(14px, 1.4vw, 18px);
+    line-height: clamp(22px, 2vw, 27px);
+  }
+
+  &__price {
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  &__divider {
+    width: 1px;
+    height: clamp(14px, 1.2vw, 16px);
+    background-color: var(--color-gray-700);
+  }
+
+  &__author {
+    color: var(--color-gray-700);
+  }
+}
