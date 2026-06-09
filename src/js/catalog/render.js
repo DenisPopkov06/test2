@@ -1,59 +1,90 @@
 import { CATEGORY_LABELS } from '../data/constants.js';
 import { getInstructorImage } from '../utils/images.js';
 
-export function createCourseCard(course) {
-  const item = document.createElement('li');
-  item.className = 'courses__item course-card';
+const cardCache = new Map();
 
-  item.innerHTML = `
-    <article class="course-card__inner">
-      <div class="course-card__image">
-        <img
-          class="course-card__photo"
-          src="${getInstructorImage(course.author, course.id)}"
-          alt="${course.author}"
-          loading="lazy"
-          width="360"
-          height="240"
-        />
-      </div>
-      <div class="course-card__body">
-        <span class="course-card__badge course-card__badge--${course.category}">
-          ${CATEGORY_LABELS[course.category]}
-        </span>
-        <h3 class="course-card__title">${course.title}</h3>
-        <footer class="course-card__footer">
-          <span class="course-card__price">$${course.price}</span>
-          <span class="course-card__divider"></span>
-          <span class="course-card__author">by ${course.author}</span>
-        </footer>
-      </div>
-    </article>
-  `;
+const courseCardTemplate = document.getElementById('course-card-template');
+const filterTemplate = document.getElementById('filter-template');
+const toggleTemplate = document.getElementById('toggle-template');
+
+export function createCourseCard(course) {
+  const item = courseCardTemplate.content.firstElementChild.cloneNode(true);
+  const photo = item.querySelector('.course-card__photo');
+  const badge = item.querySelector('.course-card__badge');
+
+  photo.src = getInstructorImage(course.author, course.id);
+  photo.alt = course.author;
+
+  badge.textContent = CATEGORY_LABELS[course.category] ?? course.category;
+  badge.dataset.category = course.category;
+
+  item.querySelector('.course-card__title').textContent = course.title;
+  item.querySelector('.course-card__price').textContent = `$${course.price}`;
+  item.querySelector('.course-card__author').textContent = `by ${course.author}`;
 
   return item;
 }
 
+function getOrCreateCard(course) {
+  const id = String(course.id);
+  let card = cardCache.get(id);
+
+  if (!card) {
+    card = createCourseCard(course);
+    card.dataset.courseId = id;
+    cardCache.set(id, card);
+  }
+
+  return card;
+}
+
+export function renderGrid(container, courses) {
+  const fragment = document.createDocumentFragment();
+
+  courses.forEach((course) => {
+    fragment.appendChild(getOrCreateCard(course));
+  });
+
+  container.replaceChildren(fragment);
+}
+
+export function appendGrid(container, courses, fromIndex) {
+  const fragment = document.createDocumentFragment();
+
+  courses.slice(fromIndex).forEach((course) => {
+    fragment.appendChild(getOrCreateCard(course));
+  });
+
+  container.appendChild(fragment);
+}
+
+export function renderEmpty(empty, grid, isEmpty) {
+  empty.hidden = !isEmpty;
+  grid.hidden = isEmpty;
+}
+
+export function setGridBusy(grid, isBusy) {
+  grid.setAttribute('aria-busy', String(isBusy));
+}
+
 export function initFilters(container, categoryOptions) {
-  container.innerHTML = categoryOptions
-    .map(
-      ({ id, label }) => `
-        <button
-          type="button"
-          class="courses__filter"
-          data-category="${id}"
-        >
-          ${label}<sup class="courses__filter-count" data-count="${id}">0</sup>
-        </button>
-      `,
-    )
-    .join('');
+  const fragment = document.createDocumentFragment();
+
+  categoryOptions.forEach(({ id, label }) => {
+    const button = filterTemplate.content.firstElementChild.cloneNode(true);
+    button.dataset.category = id;
+    button.querySelector('.courses__filter-label').textContent = label;
+    fragment.appendChild(button);
+  });
+
+  container.replaceChildren(fragment);
 }
 
 export function updateFilters(container, { category, categoryCounts }) {
   container.querySelectorAll('.courses__filter').forEach((button) => {
     const isActive = button.dataset.category === category;
     button.classList.toggle('courses__filter--active', isActive);
+    button.setAttribute('aria-selected', String(isActive));
 
     const countEl = button.querySelector('.courses__filter-count');
     if (countEl) {
@@ -62,40 +93,23 @@ export function updateFilters(container, { category, categoryCounts }) {
   });
 }
 
-export function renderGrid(container, courses) {
-  const fragment = document.createDocumentFragment();
-
-  courses.forEach((course) => {
-    fragment.appendChild(createCourseCard(course));
-  });
-
-  container.replaceChildren(fragment);
-}
-
 export function renderToggle(container, { hasMore, canCollapse }) {
+  if (!hasMore && !canCollapse) {
+    container.replaceChildren();
+    return;
+  }
+
+  const button = toggleTemplate.content.firstElementChild.cloneNode(true);
+  const icon = button.querySelector('.courses__toggle-icon');
+
   if (hasMore) {
-    container.innerHTML = `
-      <button class="courses__toggle" type="button" data-action="load-more">
-        <span class="courses__toggle-icon">
-          <img class="courses__toggle-img" src="src/assets/Load.svg" alt="" width="16" height="16" />
-        </span>
-        Load more
-      </button>
-    `;
-    return;
+    button.dataset.action = 'load-more';
+    button.querySelector('.courses__toggle-text').textContent = 'Load more';
+  } else {
+    button.dataset.action = 'collapse';
+    icon.classList.add('courses__toggle-icon--collapsed');
+    button.querySelector('.courses__toggle-text').textContent = 'Show less';
   }
 
-  if (canCollapse) {
-    container.innerHTML = `
-      <button class="courses__toggle" type="button" data-action="collapse">
-        <span class="courses__toggle-icon courses__toggle-icon--collapsed">
-          <img class="courses__toggle-img" src="src/assets/Load.svg" alt="" width="16" height="16" />
-        </span>
-        Show less
-      </button>
-    `;
-    return;
-  }
-
-  container.innerHTML = '';
+  container.replaceChildren(button);
 }

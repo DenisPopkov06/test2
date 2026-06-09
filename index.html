@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -14,26 +14,41 @@
   </head>
   <body>
     <main class="page">
-      <section class="courses">
-        <div class="courses__decor-layer">
-          <img
-            class="courses__decor courses__decor--dots"
-            src="src/assets/dots.svg"
-            alt=""
-          />
-        </div>
+      <section class="courses" aria-labelledby="courses-title">
+        <img
+          class="courses__decor courses__decor--dots"
+          src="src/assets/dots.svg"
+          alt=""
+        />
+        <img
+          class="courses__decor courses__decor--arrows_3"
+          src="src/assets/arrows_3.svg"
+          alt=""
+        />
+        <img
+          class="courses__decor courses__decor--arrows_4"
+          src="src/assets/arrows_4.svg"
+          alt=""
+        />
 
         <div class="courses__container">
           <header class="courses__header">
-            <h6 class="courses__label">Enjoy your studying!</h6>
-            <h1 class="courses__title" id="courses-title">Our online courses</h1>
+            <p class="courses__label">Enjoy your studying!</p>
+            <h1 class="courses__title" id="courses-title">
+              Our online courses
+            </h1>
           </header>
 
           <div class="courses__toolbar">
-            <nav class="courses__filters" id="course-filters"></nav>
+            <nav
+              class="courses__filters"
+              id="course-filters"
+              role="tablist"
+              aria-label="Course categories"
+            ></nav>
 
             <div class="courses__search">
-              <label class="courses__search-label" for="course-search">
+              <label class="visually-hidden" for="course-search">
                 Search course
               </label>
               <input
@@ -53,14 +68,73 @@
             </div>
           </div>
 
-          <p class="courses__empty" id="course-empty" hidden>No courses found</p>
+          <p
+            class="courses__empty"
+            id="course-empty"
+            role="status"
+            aria-live="polite"
+            hidden
+          >
+            No courses found
+          </p>
 
-          <ul class="courses__grid" id="course-grid"></ul>
+          <ul class="courses__grid" id="course-grid" aria-busy="false"></ul>
 
           <div class="courses__actions" id="course-toggle"></div>
         </div>
       </section>
     </main>
+
+    <template id="course-card-template">
+      <li class="courses__item course-card">
+        <div class="course-card__image">
+          <img
+            class="course-card__photo"
+            src=""
+            alt=""
+            loading="lazy"
+            width="360"
+            height="240"
+          />
+        </div>
+        <div class="course-card__body">
+          <span class="course-card__badge"></span>
+          <h2 class="course-card__title"></h2>
+          <footer class="course-card__footer">
+            <span class="course-card__price"></span>
+            <span class="course-card__divider"></span>
+            <span class="course-card__author"></span>
+          </footer>
+        </div>
+      </li>
+    </template>
+
+    <template id="filter-template">
+      <button
+        type="button"
+        class="courses__filter"
+        role="tab"
+        aria-selected="false"
+      >
+        <span class="courses__filter-label"></span>
+        <span class="courses__filter-count">0</span>
+      </button>
+    </template>
+
+    <template id="toggle-template">
+      <button class="courses__toggle" type="button">
+        <span class="courses__toggle-icon">
+          <img
+            class="courses__toggle-img"
+            src="src/assets/Load.svg"
+            alt=""
+            width="16"
+            height="16"
+          />
+        </span>
+        <span class="courses__toggle-text"></span>
+      </button>
+    </template>
 
     <script type="module" src="src/js/main.js" defer></script>
   </body>

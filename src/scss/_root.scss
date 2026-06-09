@@ -27,9 +27,13 @@
   // Layout
   --container-max: 1920px;
   --content-max: #{$content-max};
-  --container-padding: clamp(16px, 4vw, 135px);
-  --grid-gap: clamp(16px, 2.5vw, #{$grid-gap});
-  --card-min-width: min(100%, calc((var(--content-max) - 2 * var(--grid-gap)) / 3));
+  --container-padding: clamp(16px, calc(16px + 119 * ((100vw - 320px) / 1600)), 135px);
+  --grid-gap: clamp(
+    16px,
+    calc(16px + 14 * ((min(100vw, #{$content-max}) - 320px) / 970)),
+    #{$grid-gap}
+  );
+  --card-min-width: min(100%, max(280px, calc((100% - 2 * var(--grid-gap)) / 3)));
 
   // Effects
   --shadow-card:

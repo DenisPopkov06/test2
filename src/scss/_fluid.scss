@@ -1,0 +1,21 @@
+@function fluid($min, $max, $min-vw: 320, $max-vw: 1290) {
+  @return clamp(
+    #{$min}px,
+    calc(
+      #{$min}px + (#{$max - $min}) *
+        ((min(100vw, #{$max-vw}px) - #{$min-vw}px) / (#{$max-vw - $min-vw}))
+    ),
+    #{$max}px
+  );
+}
+
+@function fluid-vw($min, $max, $min-vw: 320, $max-vw: 1920) {
+  @return clamp(
+    #{$min}px,
+    calc(
+      #{$min}px + (#{$max - $min}) *
+        ((100vw - #{$min-vw}px) / (#{$max-vw - $min-vw}))
+    ),
+    #{$max}px
+  );
+}

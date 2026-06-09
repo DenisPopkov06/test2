@@ -1,28 +1,46 @@
 @use '../variables' as *;
+@use '../fluid' as *;
 
 .courses {
   position: relative;
-  padding-block: clamp(48px, 8vw, 140px);
-
-  &__decor-layer {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-  }
+  padding-block: fluid-vw(48, 140);
 
   &__decor {
     position: absolute;
     display: block;
     max-width: none;
+    pointer-events: none;
+    z-index: 0;
 
     &--dots {
-      top: clamp(80px, 12vw, 160px);
-      right: max(16px, calc((100vw - var(--content-max)) / 2 - 24px));
-      width: clamp(80px, 6vw, 117px);
+      top: 70px;
+      right: 0;
+      width: fluid-vw(80, 117);
       height: auto;
 
       @media (max-width: 767px) {
+        display: none;
+      }
+    }
+
+    &--arrows_4 {
+      top: 1100px;
+      right: 72px;
+      width: fluid-vw(80, 117);
+      height: auto;
+
+      @media (max-width: 1720px) {
+        display: none;
+      }
+    }
+
+    &--arrows_3 {
+      top: 770px;
+      left: 56px;
+      width: fluid-vw(80, 117);
+      height: auto;
+
+      @media (max-width: 1720px) {
         display: none;
       }
     }
@@ -37,24 +55,24 @@
   }
 
   &__header {
-    margin-bottom: clamp(32px, 5vw, 60px);
+    margin-bottom: fluid(32, 60);
     text-align: center;
   }
 
   &__label {
-    margin-bottom: clamp(8px, 1vw, 12px);
-    font-size: clamp(12px, 1.2vw, 16px);
+    margin-bottom: 12px;
+    font-size: fluid(12, 16);
     font-weight: 700;
-    line-height: clamp(18px, 2vw, 24px);
+    line-height: fluid(18, 24);
     letter-spacing: 1px;
     text-transform: uppercase;
     color: var(--color-gray-900);
   }
 
   &__title {
-    font-size: clamp(28px, 4.5vw, 46px);
+    font-size: fluid(28, 46);
     font-weight: 900;
-    line-height: clamp(36px, 5vw, 60px);
+    line-height: fluid(36, 60);
     letter-spacing: 0.02em;
     color: var(--color-gray-900);
   }
@@ -64,26 +82,29 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: clamp(16px, 3vw, 32px);
-    margin-bottom: clamp(32px, 4vw, 60px);
+    gap: fluid(16, 32);
+    width: 100%;
+    max-width: var(--content-max);
+    margin-inline: auto;
+    margin-bottom: fluid(32, 60);
   }
 
   &__filters {
     display: flex;
     flex-wrap: wrap;
-    gap: clamp(8px, 1.5vw, 12px);
+    gap: fluid(8, 12);
   }
 
   &__filter {
     display: inline-flex;
     align-items: center;
     gap: 2px;
-    padding: clamp(8px, 1vw, 10px) clamp(12px, 1.2vw, 16px);
+    padding: fluid(8, 10) fluid(12, 16);
     border: 1px solid transparent;
     border-radius: var(--radius-sm);
-    font-size: clamp(12px, 1.3vw, 16px);
+    font-size: fluid(14, 16);
     font-weight: 700;
-    line-height: clamp(22px, 2vw, 26px);
+    line-height: fluid(22, 26);
     color: var(--color-gray-600);
     white-space: nowrap;
     transition:
@@ -108,37 +129,25 @@
   &__filter-count {
     font-size: 10px;
     font-weight: 700;
+    line-height: 12px;
     vertical-align: super;
-    line-height: 0;
+    margin-left: 2px;
   }
 
   &__search {
     position: relative;
-    flex: 1 1 clamp(192px, 30vw, 330px);
+    flex: 1 1 192px;
     max-width: 330px;
     margin-left: auto;
   }
 
-  &__search-label {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
   &__search-input {
     width: 100%;
-    padding: clamp(8px, 1vw, 10px) clamp(36px, 3vw, 40px) clamp(8px, 1vw, 10px)
-      clamp(12px, 1.2vw, 16px);
+    padding: fluid(8, 10) fluid(36, 40) fluid(8, 10) fluid(12, 16);
     border: 1px solid var(--color-gray-400);
     border-radius: var(--radius-sm);
-    font-size: clamp(14px, 1.3vw, 16px);
-    line-height: clamp(22px, 2vw, 26px);
+    font-size: fluid(14, 16);
+    line-height: fluid(22, 26);
     color: var(--color-gray-900);
     background-color: var(--color-white);
     outline: none;
@@ -160,7 +169,7 @@
   &__search-icon {
     position: absolute;
     top: 50%;
-    right: clamp(12px, 1.2vw, 16px);
+    right: fluid(12, 16);
     transform: translateY(-50%);
     display: block;
     width: 15px;
@@ -169,17 +178,20 @@
   }
 
   &__empty {
-    margin-bottom: clamp(24px, 3vw, 32px);
+    margin-bottom: fluid(24, 32);
     text-align: center;
-    font-size: clamp(16px, 2vw, 20px);
+    font-size: fluid(16, 20);
     color: var(--color-gray-700);
   }
 
   &__grid {
     display: grid;
+    width: 100%;
+    max-width: var(--content-max);
+    margin-inline: auto;
     grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width), 1fr));
     gap: var(--grid-gap);
-    margin-bottom: clamp(32px, 4vw, 60px);
+    margin-bottom: fluid(32, 60);
   }
 
   &__actions {
@@ -191,10 +203,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: clamp(8px, 1vw, 12px);
-    font-size: clamp(14px, 1.4vw, 16px);
+    gap: fluid(8, 12);
+    font-size: fluid(14, 16);
     font-weight: 700;
-    line-height: clamp(22px, 2vw, 26px);
+    line-height: fluid(22, 26);
     color: var(--color-gray-800);
     transition: color var(--transition-base);
 
@@ -213,8 +225,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: clamp(36px, 3vw, 40px);
-    height: clamp(36px, 3vw, 40px);
+    width: fluid(36, 40);
+    height: fluid(36, 40);
     border-radius: 50%;
     background-color: var(--color-gray-200);
     transition: background-color var(--transition-base);
@@ -226,7 +238,7 @@
 
   &__toggle-img {
     display: block;
-    width: clamp(14px, 1.2vw, 16px);
+    width: 16px;
     height: auto;
   }
 
